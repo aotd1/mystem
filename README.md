@@ -1,4 +1,4 @@
-PLexicon (PHP mystem wrapper)
+PHP Mystem wrapper
 =============================
 
 Description
@@ -19,7 +19,7 @@ To install with composer add the following to your `composer.json` file:
     }
 }
 ```
-
+git 
 ```bash
 $ composer install
 ```
@@ -29,27 +29,30 @@ Usage
 
 Check bad words in text
 
-    <?php
-    require 'Mystem.php';
+```php
+<?php
+require 'Mystem.php';
 
-    Mystem::setIgnoredBadList(array_filter(explode("\n", file_get_contents('dictionaries/stop-words.txt')), 'trim'));
+Mystem::setIgnoredBadList(array_filter(explode("\n", file_get_contents('dictionaries/stop-words.txt')), 'trim'));
 
-    $article = new Mystem(file_get_contents('tests/simple.txt'));
+$article = new Mystem(file_get_contents('tests/simple.txt'));
 
-    $badWords = $article->checkBadWords(false);
-    if( sizeof($badWords)>0 ) {
-        var_dump($badWords);
-    } else {
-        echo "All clear\n";
-    }
+$badWords = $article->checkBadWords(false);
+if( sizeof($badWords)>0 ) {
+    var_dump($badWords);
+} else {
+    echo "All clear\n";
+}
+```
 
 Get verb time
 
-    <?php
-    require 'Mystem.php';
+```php
+<?php
+require 'Mystem.php';
 
-    $verb = new StemmedWord('убежавшими');
-    echo $verb->getVerbTime();
-
+$verb = new StemmedWord('убежавшими');
+echo $verb->getVerbTime();
+```
 
 

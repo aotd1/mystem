@@ -1,5 +1,5 @@
-PHP Mystem wrapper
-=============================
+Mystem
+======
 
 Description
 -----------
@@ -54,5 +54,3 @@ require 'Mystem.php';
 $verb = new StemmedWord('убежавшими');
 echo $verb->getVerbTime();
 ```
-
-

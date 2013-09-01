@@ -1,0 +1,13 @@
+{
+    "name": "aotd/Mystem",
+    "description": "Yandex Mystem wrapper",
+    "authors": [
+        {
+            "name": "Alexey Ashurok",
+            "email": "work@aotd.ru"
+        }
+    ],
+    "autoload": {
+        "classmap": [ "src/" ]
+    }
+}

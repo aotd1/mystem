@@ -16,5 +16,4 @@ $article = new \Mystem\Article($text);
 echo "All words:\n";
 foreach ($article->words as $word) {
     echo $word." ";
-    var_dump($word);
 }

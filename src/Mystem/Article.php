@@ -66,7 +66,7 @@ class Article
     {
         $result = array();
         foreach ($this->words as $word)
-            if ($word->checkGrammem(MystemConst::OTHER_VULGARISM) &&
+            if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM) &&
                 !in_array($word->normalized(), self::$ignoredBadList)
             ) {
                 $result[$word->original] = $word->normalized();

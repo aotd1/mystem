@@ -8,7 +8,7 @@ namespace Mystem;
 class Mystem
 {
     /* @var string $mystemPath */
-    public static $mystemPath = 'bin/';
+    public static $mystemPath = null;
 
     /* @var array $errorOutput */
     public static $errorOutput = array("file", "error.log", "a");
@@ -41,6 +41,9 @@ class Mystem
      */
     private static function getMystem()
     {
+        if (self::$mystemPath === null) {
+            self::$mystemPath = __DIR__ . '/../../bin/';
+        }
         return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
     }
 }

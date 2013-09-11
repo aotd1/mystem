@@ -1,13 +1,13 @@
 Mystem
 ======
 
-Description
+Описание
 -----------
 
-Simple PHP wrapper for [Yandex mystem](http://company.yandex.ru/technologies/mystem/) morphological analysis program.
-Russian morphology only!
+Простой wrapper для [Yandex mystem](http://company.yandex.ru/technologies/mystem/), - морфологического анализатора.
+Работает исключительно с русской морфологией.
 
-Installation
+Установка
 ------------
 
 ### Composer ###
@@ -15,42 +15,80 @@ To install with composer add the following to your `composer.json` file:
 ```js
 {
     "require": {
-        "aotd/Mystem": ">=0.9"
+        "aotd/mystem": "dev-master"
     }
 }
 ```
-git 
+ 
 ```bash
 $ composer install
 ```
 
-Usage
+Использование
 -----
 
-Check bad words in text
+Нормализуем все слова в тексте
 
 ```php
 <?php
-require 'Mystem.php';
+require "vendor/autoload.php";
 
-Mystem::setIgnoredBadList(array_filter(explode("\n", file_get_contents('dictionaries/stop-words.txt')), 'trim'));
+$text = <<<BARMAGLOT
+Варкалось. Хливкие шорьки
+Пырялись по наве,
+И хрюкотали зелюки,
+Как мюмзики в мове.
+BARMAGLOT;
 
-$article = new Mystem(file_get_contents('tests/simple.txt'));
-
-$badWords = $article->checkBadWords(false);
-if( sizeof($badWords)>0 ) {
-    var_dump($badWords);
-} else {
-    echo "All clear\n";
+$article = new \Mystem\Article($text);
+echo "All words:\n";
+foreach ($article->words as $word) {
+    echo $word." ";
 }
 ```
 
-Get verb time
+Ищем маты
 
 ```php
 <?php
-require 'Mystem.php';
+require "vendor/autoload.php";
 
-$verb = new StemmedWord('убежавшими');
-echo $verb->getVerbTime();
+$mayakovsky = <<<TEXT
+Не те бляди,
+что хлеба ради
+спереди и сзади
+дают нам ебти,
+Бог их прости!
+
+А те бляди - лгущие,
+деньги сосущие,
+еть не дающие -
+вот бляди сущие,
+мать их ети!
+TEXT;
+
+$article = new \Mystem\Article($mayakovsky);
+var_dump($article->checkBadWords(false));
+
+//Добавляем словарь исключений
+\Mystem\Article::setIgnoredBadList(array('блядь'));
+var_dump($article->checkBadWords(false));
+```
+
+Время глагола
+
+```php
+<?php
+require "vendor/autoload.php";
+
+$verbs = array(
+    'шедший',
+    'идущий',
+    'вычислявшийся',
+    'вычисляющийся'
+);
+
+foreach ($verbs as $word) {
+    echo $word . " - " . \Mystem\Word::stemm($word)->getVerbTime() . "\n";
+}
 ```

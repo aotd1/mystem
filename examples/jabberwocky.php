@@ -1,9 +1,5 @@
 <?php
-require 'src/Mystem/MystemConst.php';
-require 'src/Mystem/Mystem.php';
-require 'src/Mystem/Word.php';
-require 'src/Mystem/ArticleWord.php';
-require 'src/Mystem/Article.php';
+require '../vendor/autoload.php';
 
 $text = <<<BARMAGLOT
 Варкалось. Хливкие шорьки

@@ -1,17 +1,35 @@
-Mystem
-======
+Использование Mystem
+====================
 
-Описание
------------
-
-Простой wrapper для [Yandex mystem](http://company.yandex.ru/technologies/mystem/), - морфологического анализатора.
+Простая обертка для [Yandex mystem](http://company.yandex.ru/technologies/mystem/).
 Работает исключительно с русской морфологией.
 
-Установка
-------------
+Разрабатывалась для определения ненормативной лексики в текстах, но вполне подойдет и для стемминга и морфологического анализа.
 
-### Composer ###
-To install with composer add the following to your `composer.json` file:
+Установка
+---------
+
+Библиотека доступна в Packagist ([aotd/mystem](http://packagist.org/packages/aotd/mystem)) и устанавливается через [Composer](http://getcomposer.org/).
+
+```bash
+php composer.phar require aotd/mystem 'dev-master'
+```
+
+Никто не запрещает просто скачать исходники с GitHub и использовать любой PSR-0 автолоадер.
+
+Использование
+-------------
+
+Все примеры собраны в папке examples.
+
+ - antimat - проверка текста на наличие абсценной лексики.
+ - jabberwocky - стемминг части стихотворения Дины Орловской «Бармаглот».
+ - verb-tense - определение времени глагола
+
+### Использование с Yii ###
+
+Устанавливаем библиотеку через composer
+
 ```js
 {
     "require": {
@@ -19,76 +37,23 @@ To install with composer add the following to your `composer.json` file:
     }
 }
 ```
- 
+
 ```bash
 $ composer install
 ```
 
-Использование
------
-
-Нормализуем все слова в тексте
+Складываем `ExtMystem.php` в `/protected/extensions/Mystem`, добавлеям в конфиг в секцию `components`:
 
 ```php
-<?php
-require "vendor/autoload.php";
-
-$text = <<<BARMAGLOT
-Варкалось. Хливкие шорьки
-Пырялись по наве,
-И хрюкотали зелюки,
-Как мюмзики в мове.
-BARMAGLOT;
-
-$article = new \Mystem\Article($text);
-echo "All words:\n";
-foreach ($article->words as $word) {
-    echo $word." ";
-}
+    ...
+    'mystem' => array(
+        'class' => 'ext.Mystem.ExtMystem',
+//      'falsePositive' => __DIR__ . '/mystem/false-positive.txt',
+//      'falsePositiveNormalized' => __DIR__ . '/mystem/false-positive-normalized.txt',
+//      'falseNegative' => __DIR__ . '/mystem/false-negative.txt',
+//      'falseNegativeNormalized' => __DIR__ . '/mystem/false-negative-normalized.txt',
+    ),
+    ...
 ```
 
-Ищем маты
-
-```php
-<?php
-require "vendor/autoload.php";
-
-$mayakovsky = <<<TEXT
-Не те бляди,
-что хлеба ради
-спереди и сзади
-дают нам ебти,
-Бог их прости!
-
-А те бляди - лгущие,
-деньги сосущие,
-еть не дающие -
-вот бляди сущие,
-мать их ети!
-TEXT;
-
-$article = new \Mystem\Article($mayakovsky);
-var_dump($article->checkBadWords(false));
-
-//Добавляем словарь исключений
-\Mystem\Article::setIgnoredBadList(array('блядь'));
-var_dump($article->checkBadWords(false));
-```
-
-Время глагола
-
-```php
-<?php
-require "vendor/autoload.php";
-
-$verbs = array(
-    'шедший',
-    'идущий',
-    'вычислявшийся',
-    'вычисляющийся'
-);
-
-foreach ($verbs as $word) {
-    echo $word . " - " . \Mystem\Word::stemm($word)->getVerbTime() . "\n";
-}
-```
+Опционально указываем списки ложно-положительных, ложно-отрицательных слов для фильтра обсценной лексики.

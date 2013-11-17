@@ -12,8 +12,17 @@ class Article
     /* @var ArticleWord[] $words */
     public $words = array();
 
-    /* @var string[] $ignoredBadList */
-    protected static $ignoredBadList = array();
+    /* @var string[] $falsePositiveList */
+    public static $falsePositiveList = array();
+
+    /* @var string[] $falsePositiveList */
+    public static $falsePositiveNormalizedList = array();
+
+    /* @var string[] $falseNegativeList */
+    public static $falseNegativeList = array();
+
+    /* @var string[] $falseNegativeList */
+    public static $falseNegativeNormalizedList = array();
 
     /**
      * @param string $text
@@ -31,23 +40,13 @@ class Article
         $stemmed = Mystem::stemm($text);
         foreach ($stemmed as $part) {
             $word = ArticleWord::newFromLexicalString($part, 1, $this->article);
-            $position = mb_strpos($this->article, $word->original, $offset);
+            $position = @mb_strpos($this->article, $word->original, $offset);
             if ($position === false) //Can't find original word
                 $position = $offset + 1;
             $word->position = $position;
             $offset = $word->position + mb_strlen($word->original);
             $this->words[] = $word;
         }
-    }
-
-    /**
-     * @param string[] $ignoredBadList
-     * @param bool $reset
-     */
-    public static function setIgnoredBadList(array $ignoredBadList, $reset = false)
-    {
-        if ($reset || empty(self::$ignoredBadList))
-            self::$ignoredBadList = $ignoredBadList;
     }
 
     /**
@@ -65,15 +64,30 @@ class Article
     public function checkBadWords($stopOnFirst = false)
     {
         $result = array();
-        foreach ($this->words as $word)
-            if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM) &&
-                !in_array($word->normalized(), self::$ignoredBadList)
-            ) {
+        foreach ($this->words as $word) {
+            if ($this->isBadWord($word)) {
                 $result[$word->original] = $word->normalized();
                 if ($stopOnFirst)
                     break;
             }
+        }
         return $result;
+    }
+
+    /**
+     * @param Word $word
+     * @return bool
+     */
+    protected static function isBadWord(Word $word)
+    {
+        $original = mb_strtolower($word->original, 'UTF-8');
+        if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
+            return !in_array($original, self::$falsePositiveList) &&
+                   !in_array($word->normalized(), self::$falsePositiveNormalizedList);
+        } else {
+            return in_array($original, self::$falseNegativeList) ||
+                   in_array($word->normalized(), self::$falseNegativeNormalizedList);
+        }
     }
 
 }

@@ -9,5 +9,6 @@
     ],
     "autoload": {
         "psr-0": {"Mystem": "src/"}
-    }
+    },
+    "license": "MIT"
 }

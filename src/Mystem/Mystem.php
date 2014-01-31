@@ -51,6 +51,10 @@ class Mystem
         if (self::$mystemPath === null) {
             self::$mystemPath = __DIR__ . '/../../bin/';
         }
-        return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
+		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+			return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64.exe' : 'mystem.exe');
+		} else {
+			return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
+		}
     }
 }

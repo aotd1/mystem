@@ -52,7 +52,7 @@ class Mystem
             if (is_dir(__DIR__ . '/../../vendor/bin/')) {
                 self::$mystemPath = __DIR__ . '/../../vendor/bin/';
             } else {
-                self::$mystemPath = __DIR__ . '/../../bin/';
+                self::$mystemPath = __DIR__ . '/../../../../bin/';
             }
         }
 

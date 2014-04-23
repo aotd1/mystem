@@ -32,8 +32,8 @@ class Mystem
         fclose($pipes[0]);
         $raw = array_filter(explode("\n", stream_get_contents($pipes[1])));
         fclose($pipes[1]);
-        if ( !feof( $pipes[2] ) ) {
-            $logLine = fgets( $pipes[2] );
+        if (!feof($pipes[2])) {
+            $logLine = fgets($pipes[2]);
             if (!empty($logLine)) {
                 throw new \Exception($logLine);
             }
@@ -49,12 +49,19 @@ class Mystem
     private static function getMystem()
     {
         if (self::$mystemPath === null) {
-            self::$mystemPath = __DIR__ . '/../../bin/';
+            if (is_dir(__DIR__ . '/../../vendor/bin/')) {
+                self::$mystemPath = __DIR__ . '/../../vendor/bin/';
+            } else {
+                self::$mystemPath = __DIR__ . '/../../bin/';
+            }
         }
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64.exe' : 'mystem.exe');
-		} else {
-			return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
-		}
+
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64.exe' : 'mystem.exe');
+        } elseif(PHP_OS === 'Darwin') {
+            return self::$mystemPath . 'mystem';
+        } else {
+            return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
+        }
     }
 }

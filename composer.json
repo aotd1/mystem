@@ -1,14 +1,97 @@
 {
     "name": "aotd/mystem",
     "description": "Yandex Mystem wrapper",
+    "keywords": ["yandex", "stemmer", "russian", "mystem"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Alexey Ashurok",
-            "email": "work@aotd.ru"
+            "email": "me@aotd.ru"
+        }
+    ],
+    "require" : {
+        "aotd/platform-specific-installer": "dev-master"
+    },
+    "extra": {
+        "platform-specific-require": {
+            "yandex/mystem-binaries": [
+                { "yandex/mystem-mac":       "2.1", "os": "macosx"},
+                { "yandex/mystem-linux32":   "2.1", "os": "linux",   "architecture": "i386"},
+                { "yandex/mystem-linux64":   "2.1", "os": "linux",   "architecture": "x64"},
+                { "yandex/mystem-windows32": "2.1", "os": "windows", "architecture": "i386"},
+                { "yandex/mystem-windows64": "2.1", "os": "windows", "architecture": "x64"},
+                { "yandex/mystem-freebsd":   "2.1", "os": "freebsd"}
+            ]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Aotd\\Composer\\PlatformSpecificInstaller\\InstallerPlugin::install"
+        ],
+        "post-update-cmd": [
+            "Aotd\\Composer\\PlatformSpecificInstaller\\InstallerPlugin::update"
+        ]
+    },
+    "repositories": [
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-mac",
+                "version":"2.1",
+                "bin": ["mystem"],
+                "dist":{ "url":"http://download.yandex.ru/mystem/mystem-2.1-macosx10.8.tar.gz", "type":"tar" }
+            }
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-linux32",
+                "version":"2.1",
+                "bin": ["mystem"],
+                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-linux3.0-32bit.tar.gz", "type":"tar" }
+            }
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-linux64",
+                "version":"2.1",
+                "bin": ["mystem64"],
+                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-linux3.2-64bit.tar.gz", "type":"tar" }
+            }
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-windows32",
+                "version":"2.1",
+                "bin": ["mystem.exe"],
+                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-win7-32bit.zip", "type":"zip" }
+            }
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-windows64",
+                "version":"2.1",
+                "bin": ["mystem64.exe"],
+                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-win7-64bit.zip", "type":"zip" }
+            }
+        },
+        {
+            "type":"package",
+            "package":{
+                "name":"yandex/mystem-freebsd",
+                "version":"2.1",
+                "bin": ["mystem"],
+                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-freebsd9.0-64bit.tar.gz", "type":"tar" }
+            }
         }
     ],
     "autoload": {
-        "psr-0": {"Mystem": "src/"}
-    },
-    "license": "MIT"
+        "psr-0": {
+            "Mystem": "src/"
+        }
+    }
+
 }

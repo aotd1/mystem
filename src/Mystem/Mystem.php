@@ -56,12 +56,8 @@ class Mystem
             }
         }
 
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64.exe' : 'mystem.exe');
-        } elseif(PHP_OS === 'Darwin') {
-            return self::$mystemPath . 'mystem';
-        } else {
-            return self::$mystemPath . (PHP_INT_SIZE << 3 === 64 ? 'mystem64' : 'mystem');
-        }
+        return self::$mystemPath . (
+            strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
+        );
     }
 }

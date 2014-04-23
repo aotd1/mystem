@@ -10,7 +10,7 @@
         }
     ],
     "require" : {
-        "aotd/platform-specific-installer": "dev-master"
+        "aotd/platform-specific-installer": "1.1"
     },
     "extra": {
         "platform-specific-require": {
@@ -56,7 +56,7 @@
             "package":{
                 "name":"yandex/mystem-linux64",
                 "version":"2.1",
-                "bin": ["mystem64"],
+                "bin": ["mystem"],
                 "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-linux3.2-64bit.tar.gz", "type":"tar" }
             }
         },
@@ -74,7 +74,7 @@
             "package":{
                 "name":"yandex/mystem-windows64",
                 "version":"2.1",
-                "bin": ["mystem64.exe"],
+                "bin": ["mystem.exe"],
                 "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-win7-64bit.zip", "type":"zip" }
             }
         },

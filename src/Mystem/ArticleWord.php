@@ -1,10 +1,19 @@
 <?php
 namespace Mystem;
 
+/**
+ * Class ArticleWord
+ *
+ * Initialized from Article class, has link to original article and $position, filled with in Article position
+ * @package Mystem
+ */
 class ArticleWord extends Word {
 
     protected static $constructorClass = '\Mystem\ArticleWord';
 
+    /**
+     * @var string $article link to original article string
+     */
     protected $article;
 
     public $position;

@@ -74,6 +74,7 @@ class Word
     }
 
     /**
+     * Parse raw morphological data from mystem and fill Word object data
      * @param string $lexicalString - prepared string from Mystem
      * @param int $maxVariants
      */
@@ -126,17 +127,82 @@ class Word
     }
 
     /**
-     * return null | MystemConst::PRESENT | MystemConst::PAST | MystemConst::FUTURE
+     * Get verb time: present, past or future
+     * @param int $variant find in which morphological variant
+     * @return null | MystemConst::PRESENT | MystemConst::PAST | MystemConst::FUTURE
      */
     public function getVerbTime($variant = 0)
+    {
+        return $this->searchGrammemeInList(array(
+            MystemConst::PRESENT, MystemConst::FUTURE, MystemConst::PAST
+        ), $variant);
+    }
+
+    /**
+     * Get count: single or plural
+     * @param int $variant find in which morphological variant
+     * @return null | string - MystemConst
+     */
+    public function getCount($variant = 0)
+    {
+        return $this->searchGrammemeInList(array(
+            MystemConst::SUNGULAR, MystemConst::PLURAL
+        ), $variant);
+    }
+
+    /**
+     * Get gender
+     * @param int $variant find in which morphological variant
+     * @return null | string - MystemConst
+     */
+    public function getGender($variant = 0)
+    {
+        return $this->searchGrammemeInList(array(
+            MystemConst::FEMININE, MystemConst::MASCULINE, MystemConst::NEUTER
+        ), $variant);
+    }
+
+    /**
+     * Get animate
+     * @param int $variant find in which morphological variant
+     * @return null | string - MystemConst
+     */
+    public function getAnimate($variant = 0)
+    {
+        return $this->searchGrammemeInList(array(
+            MystemConst::ANIMATE, MystemConst::INANIMATE
+        ), $variant);
+    }
+
+    /**
+     * Get noun case
+     * @param int $variant
+     * @return null | string - MystemConst
+     */
+    public function getNounCase($variant = 0)
+    {
+        return $this->searchGrammemeInList(array(
+            MystemConst::NOMINATIVE,
+            MystemConst::GENITIVE,
+            MystemConst::DATIVE,
+            MystemConst::ACCUSATIVE,
+            MystemConst::INSTRUMENTAL,
+            MystemConst::PREPOSITIONAL,
+            MystemConst::PARTITIVE,
+            MystemConst::LOCATIVE,
+            MystemConst::VOCATIVE,
+        ), $variant);
+    }
+
+    protected function searchGrammemeInList(array $constants, $variant = 0)
     {
         if (!isset($this->variants[$variant])) {
             return null;
         }
 
-        foreach (array(MystemConst::PRESENT, MystemConst::FUTURE, MystemConst::PAST) as $time) {
-            if (in_array($time, $this->variants[$variant]['grammems'])) {
-                return $time;
+        foreach ($constants as $grammeme) {
+            if (in_array($grammeme, $this->variants[$variant]['grammems'])) {
+                return $grammeme;
             }
         }
 

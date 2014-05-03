@@ -7,13 +7,16 @@ namespace Mystem;
  */
 class Mystem
 {
-    /* @var string $mystemPath */
+    /* @var string $mystemPath path to mystem binary */
     public static $mystemPath = null;
 
     /* @var array $errorOutput */
     public static $errorOutput = array("file", "error.log", "a");
 
     /**
+     * Runs mystem binary and returns raw morphological data for each word
+     * Ex. for 'каракули' returns:
+     *   каракули{каракуль=S,муж,неод=им,мн|=S,муж,неод=вин,мн|каракуля=S,жен,неод=им,мн|=S,жен,неод=род,ед|=S,жен,неод=вин,мн}
      * @param string $text
      * @throws \Exception
      * @return string[]|bool lexical strings array
@@ -43,7 +46,7 @@ class Mystem
     }
 
     /**
-     * Returns mystem executable depends bit depth of operating system
+     * Returns mystem executable depends bit depth of operating system and OS type
      * @return string
      */
     private static function getMystem()

@@ -26,16 +26,11 @@ class Article
 
     /**
      * @param string $text
-     * @param string[] $ignoredBadList
      */
-    public function __construct($text, array $ignoredBadList = array())
+    public function __construct($text)
     {
         $offset = 0;
         $this->article = $text;
-
-        if (!empty($ignoredBadList)) {
-            $this->setIgnoredBadList($ignoredBadList);
-        }
 
         $stemmed = Mystem::stemm($text);
         foreach ($stemmed as $part) {
@@ -65,7 +60,7 @@ class Article
     {
         $result = array();
         foreach ($this->words as $word) {
-            if ($this->isBadWord($word)) {
+            if (self::isBadWord($word)) {
                 $result[$word->original] = $word->normalized();
                 if ($stopOnFirst)
                     break;

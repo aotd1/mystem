@@ -34,13 +34,21 @@ php composer.phar require aotd/mystem 'dev-master'
 {
     "require": {
         "aotd/mystem": "dev-master"
-    }
+    },
+    "scripts": {
+        "post-install-cmd": [ "MystemBinaryInstaller::install" ],
+        "post-update-cmd":  [ "MystemBinaryInstaller::update" ]
+    },
 }
 ```
 
 ```bash
 $ composer install
 ```
+
+Секция scripts необходима для установки бинарного файла mystem от Яндекса
+в зависимости от целевой платформы (Win/Mac OS/Linux/FreeBSD)
+
 
 Складываем `ExtMystem.php` в `/protected/extensions/Mystem`, добавлеям в конфиг в секцию `components`:
 

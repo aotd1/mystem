@@ -58,6 +58,9 @@ class ExtMystem extends CApplicationComponent
                 $nominativeArticle .= ' ' . $word;
             }
         }
+        if ($nominativeArticle === '') {
+            return array();
+        }
 
         $newArticle = new \Mystem\Article($nominativeArticle);
         $words = $newArticle->checkBadWords(false);

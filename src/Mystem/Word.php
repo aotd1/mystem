@@ -109,8 +109,65 @@ class Word
     }
 
     /**
+     * @param string $gramm - grammar primitive from MystemConst
+     * @return int|void
+     */
+    public function addGrammeme($gramm)
+    {
+        $levels = count($this->variants);
+        $counter = 0;
+        for ($i=0; $i<$levels; $i++) {
+            $counter += $this->addGrammemeInVariant($gramm, $i);
+        }
+        return $counter;
+    }
+
+    /**
+     * @param string $gramm - grammar primitive from MystemConst
+     * @param int $level
+     * @return bool
+     */
+    protected function addGrammemeInVariant($gramm, $level = null)
+    {
+        if (!isset($this->variants[$level]) || in_array($gramm, $this->variants[$level]['grammems'])) {
+            return false;
+        }
+        $this->variants[$level]['grammems'][] = $gramm;
+        return true;
+    }
+
+    /**
+     * @param string $gramm - grammar primitive from MystemConst
+     * @return int
+     */
+    public function removeGrammeme($gramm)
+    {
+        $levels = count($this->variants);
+        $counter = 0;
+        for ($i=0; $i<$levels; $i++) {
+            $counter += $this->removeGrammemeInVariant($gramm, $i);
+        }
+        return $counter;
+    }
+
+    /**
+     * @param string $gramm - grammar primitive from MystemConst
+     * @param int $level
+     * @return bool
+     */
+    protected function removeGrammemeInVariant($gramm, $level)
+    {
+        if (!isset($this->variants[$level]['grammems'])) {
+            return false;
+        }
+        $key = array_search($gramm, $this->variants[$level]['grammems']);
+        unset($this->variants[$level]['grammems'][$key]);
+        return $key !== false;
+    }
+
+    /**
      * Search grammese primitive in word variants
-     * @param $gramm - grammar primitive from MystemConst
+     * @param string $gramm - grammar primitive from MystemConst
      * @param null $level - variants maximum depth
      * @return boolean
      */

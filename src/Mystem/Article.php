@@ -59,7 +59,7 @@ class Article
     public function checkBadWords($stopOnFirst = false)
     {
         $result = array();
-        foreach ($this->words as $word) {
+        foreach ($this->words as &$word) {
             if (self::isBadWord($word)) {
                 $result[$word->original] = $word->normalized();
                 if ($stopOnFirst)
@@ -72,16 +72,25 @@ class Article
     /**
      * @param Word $word
      * @return bool
+     * @todo: move isBadWord in Word class
      */
     protected static function isBadWord(Word $word)
     {
         $original = mb_strtolower($word->original, 'UTF-8');
         if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
-            return !in_array($original, self::$falsePositiveList) &&
-                   !in_array($word->normalized(), self::$falsePositiveNormalizedList);
+            $inExceptions = in_array($original, self::$falsePositiveList) &&
+                in_array($word->normalized(), self::$falsePositiveNormalizedList);
+            if ($inExceptions) {
+                $word->removeGrammeme(MystemConst::OTHER_VULGARISM);
+            }
+            return !$inExceptions;
         } else {
-            return in_array($original, self::$falseNegativeList) ||
-                   in_array($word->normalized(), self::$falseNegativeNormalizedList);
+            $inExceptions = in_array($original, self::$falseNegativeList) ||
+                in_array($word->normalized(), self::$falseNegativeNormalizedList);
+            if ($inExceptions) {
+                $word->addGrammeme(MystemConst::OTHER_VULGARISM);
+            }
+            return $inExceptions;
         }
     }
 

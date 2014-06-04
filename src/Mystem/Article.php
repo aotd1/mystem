@@ -78,15 +78,17 @@ class Article
     {
         $original = mb_strtolower($word->original, 'UTF-8');
         if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
-            $inExceptions = in_array($original, self::$falsePositiveList) &&
-                in_array($word->normalized(), self::$falsePositiveNormalizedList);
+            $inExceptions = in_array($original, self::$falsePositiveList) ||
+                (in_array($word->normalized(), self::$falsePositiveNormalizedList) &&
+                 !in_array($original, self::$falseNegativeList));
             if ($inExceptions) {
                 $word->removeGrammeme(MystemConst::OTHER_VULGARISM);
             }
             return !$inExceptions;
         } else {
             $inExceptions = in_array($original, self::$falseNegativeList) ||
-                in_array($word->normalized(), self::$falseNegativeNormalizedList);
+                (in_array($word->normalized(), self::$falseNegativeNormalizedList) &&
+                 !in_array($original, self::$falsePositiveList));
             if ($inExceptions) {
                 $word->addGrammeme(MystemConst::OTHER_VULGARISM);
             }

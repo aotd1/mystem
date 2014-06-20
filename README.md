@@ -1,3 +1,8 @@
+[![unitTests](https://travis-ci.org/aotd1/mystem.svg?branch=master)](https://travis-ci.org/aotd1/mystem)
+[![Code Climate](https://codeclimate.com/github/aotd1/mystem.png)](https://codeclimate.com/github/aotd1/mystem)
+[![Total Downloads](https://poser.pugx.org/aotd/mystem/downloads.svg)](https://packagist.org/packages/aotd/mystem)
+[![License](https://poser.pugx.org/aotd/mystem/license.svg)](https://packagist.org/packages/aotd/mystem)
+
 Использование Mystem
 ====================
 

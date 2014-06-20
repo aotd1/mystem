@@ -14,7 +14,6 @@ before_script:
   - sudo apt-get install parallel
   - rm -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - composer install --prefer-source
-  - bin/composer install --prefer-source
   - git config --global user.name travis-ci
   - git config --global user.email travis@example.com
 

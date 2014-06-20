@@ -12,18 +12,6 @@ class Article
     /* @var ArticleWord[] $words */
     public $words = array();
 
-    /* @var string[] $falsePositiveList */
-    public static $falsePositiveList = array();
-
-    /* @var string[] $falsePositiveList */
-    public static $falsePositiveNormalizedList = array();
-
-    /* @var string[] $falseNegativeList */
-    public static $falseNegativeList = array();
-
-    /* @var string[] $falseNegativeList */
-    public static $falseNegativeNormalizedList = array();
-
     /**
      * @param string $text
      */
@@ -60,29 +48,13 @@ class Article
     {
         $result = array();
         foreach ($this->words as $word) {
-            if (self::isBadWord($word)) {
+            if ($word->isBadWord()) {
                 $result[$word->original] = $word->normalized();
                 if ($stopOnFirst)
                     break;
             }
         }
         return $result;
-    }
-
-    /**
-     * @param Word $word
-     * @return bool
-     */
-    protected static function isBadWord(Word $word)
-    {
-        $original = mb_strtolower($word->original, 'UTF-8');
-        if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
-            return !in_array($original, self::$falsePositiveList) &&
-                   !in_array($word->normalized(), self::$falsePositiveNormalizedList);
-        } else {
-            return in_array($original, self::$falseNegativeList) ||
-                   in_array($word->normalized(), self::$falseNegativeNormalizedList);
-        }
     }
 
 }

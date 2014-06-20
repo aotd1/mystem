@@ -9,6 +9,9 @@
             "email": "me@aotd.ru"
         }
     ],
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
     "scripts": {
         "post-install-cmd": [ "MystemBinaryInstaller::install" ],
         "post-update-cmd":  [ "MystemBinaryInstaller::update" ]

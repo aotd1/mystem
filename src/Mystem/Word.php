@@ -146,7 +146,7 @@ class Word
     public function getCount($variant = 0)
     {
         return $this->searchGrammemeInList(array(
-            MystemConst::SUNGULAR, MystemConst::PLURAL
+            MystemConst::SINGULAR, MystemConst::PLURAL
         ), $variant);
     }
 

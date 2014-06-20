@@ -1,10 +1,9 @@
 <?php
-Yii::setPathOfAlias('Mystem', Yii::getPathOfAlias('application.vendor.aotd.mystem.src.Mystem'));
 
 /**
- * @class ExtMystem
+ * @class YiiMystem
  */
-class ExtMystem extends CApplicationComponent
+class YiiMystem extends CApplicationComponent
 {
     /**
      * @var string|array list of words or filePath

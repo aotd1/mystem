@@ -25,6 +25,19 @@ class Word
 
     public $variants = array();
 
+
+    /* @var string[] $falsePositiveList */
+    public static $falsePositiveList = array();
+
+    /* @var string[] $falsePositiveList */
+    public static $falsePositiveNormalizedList = array();
+
+    /* @var string[] $falseNegativeList */
+    public static $falseNegativeList = array();
+
+    /* @var string[] $falseNegativeList */
+    public static $falseNegativeNormalizedList = array();
+
     public function __construct()
     {
         if (self::$grammemeRegexp === null) {
@@ -203,7 +216,7 @@ class Word
     public function getCount($variant = 0)
     {
         return $this->searchGrammemeInList(array(
-            MystemConst::SUNGULAR, MystemConst::PLURAL
+            MystemConst::SINGULAR, MystemConst::PLURAL
         ), $variant);
     }
 
@@ -251,6 +264,11 @@ class Word
         ), $variant);
     }
 
+    /**
+     * @param array $constants
+     * @param int $variant
+     * @return null|string
+     */
     protected function searchGrammemeInList(array $constants, $variant = 0)
     {
         if (!isset($this->variants[$variant])) {
@@ -264,6 +282,31 @@ class Word
         }
 
         return null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBadWord()
+    {
+        $original = mb_strtolower($this->original, 'UTF-8');
+        if ($this->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
+            $inExceptions = in_array($original, self::$falsePositiveList) ||
+                (in_array($this->normalized(), self::$falsePositiveNormalizedList) &&
+                    !in_array($original, self::$falseNegativeList));
+            if ($inExceptions) {
+                $this->removeGrammeme(MystemConst::OTHER_VULGARISM);
+            }
+            return !$inExceptions;
+        } else {
+            $inExceptions = in_array($original, self::$falseNegativeList) ||
+                (in_array($this->normalized(), self::$falseNegativeNormalizedList) &&
+                    !in_array($original, self::$falsePositiveList));
+            if ($inExceptions) {
+                $this->addGrammeme(MystemConst::OTHER_VULGARISM);
+            }
+            return $inExceptions;
+        }
     }
 
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+bootstrap="bootstrap.php"
+backupGlobals               = "true"
+backupStaticAttributes      = "true"
+colors                      = "true"
+convertErrorsToExceptions   = "true"
+convertNoticesToExceptions  = "true"
+convertWarningsToExceptions = "true"
+processIsolation            = "true"
+stopOnFailure               = "false"
+strict                      = "true"
+syntaxCheck                 = "true"
+verbose                     = "true"
+timeoutForSmallTests        = "10"
+timeoutForMediumTests       = "15"
+timeoutForLargeTests        = "20">
+
+<testsuite name="Mystem - Test Suite">
+    <directory>./Mystem/</directory>
+</testsuite>
+
+</phpunit>

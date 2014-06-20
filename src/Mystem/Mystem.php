@@ -10,9 +10,6 @@ class Mystem
     /* @var string $mystemPath path to mystem binary */
     public static $mystemPath = null;
 
-    /* @var array $errorOutput */
-    public static $errorOutput = array("file", "error.log", "a");
-
     /**
      * Runs mystem binary and returns raw morphological data for each word
      * Ex. for 'каракули' returns:

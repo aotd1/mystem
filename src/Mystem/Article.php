@@ -12,18 +12,6 @@ class Article
     /* @var ArticleWord[] $words */
     public $words = array();
 
-    /* @var string[] $falsePositiveList */
-    public static $falsePositiveList = array();
-
-    /* @var string[] $falsePositiveList */
-    public static $falsePositiveNormalizedList = array();
-
-    /* @var string[] $falseNegativeList */
-    public static $falseNegativeList = array();
-
-    /* @var string[] $falseNegativeList */
-    public static $falseNegativeNormalizedList = array();
-
     /**
      * @param string $text
      */
@@ -60,40 +48,13 @@ class Article
     {
         $result = array();
         foreach ($this->words as &$word) {
-            if (self::isBadWord($word)) {
+            if ($word->isBadWord()) {
                 $result[$word->original] = $word->normalized();
                 if ($stopOnFirst)
                     break;
             }
         }
         return $result;
-    }
-
-    /**
-     * @param Word $word
-     * @return bool
-     * @todo: move isBadWord in Word class
-     */
-    protected static function isBadWord(Word $word)
-    {
-        $original = mb_strtolower($word->original, 'UTF-8');
-        if ($word->checkGrammeme(MystemConst::OTHER_VULGARISM)) {
-            $inExceptions = in_array($original, self::$falsePositiveList) ||
-                (in_array($word->normalized(), self::$falsePositiveNormalizedList) &&
-                 !in_array($original, self::$falseNegativeList));
-            if ($inExceptions) {
-                $word->removeGrammeme(MystemConst::OTHER_VULGARISM);
-            }
-            return !$inExceptions;
-        } else {
-            $inExceptions = in_array($original, self::$falseNegativeList) ||
-                (in_array($word->normalized(), self::$falseNegativeNormalizedList) &&
-                 !in_array($original, self::$falsePositiveList));
-            if ($inExceptions) {
-                $word->addGrammeme(MystemConst::OTHER_VULGARISM);
-            }
-            return $inExceptions;
-        }
     }
 
 }

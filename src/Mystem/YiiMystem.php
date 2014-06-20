@@ -1,10 +1,10 @@
 <?php
-Yii::setPathOfAlias('Mystem', Yii::getPathOfAlias('application.vendor.aotd.mystem.src.Mystem'));
+namespace Mystem;
 
 /**
- * @class ExtMystem
+ * @class YiiMystem
  */
-class ExtMystem extends CApplicationComponent
+class YiiMystem extends \CApplicationComponent
 {
     /**
      * @var string|array list of words or filePath
@@ -22,10 +22,10 @@ class ExtMystem extends CApplicationComponent
         foreach ($lists as $listName) {
             if (is_string($this->$listName)) {
                 if (!file_exists($this->$listName))
-                    throw new CException("List file $listName '{$this->$listName}' not found");
-                \Mystem\Article::${$listName.'List'} = array_filter(explode("\n", file_get_contents($this->$listName)), 'trim');
+                    throw new \CException("List file $listName '{$this->$listName}' not found");
+                Word::${$listName.'List'} = array_filter(explode("\n", file_get_contents($this->$listName)), 'trim');
             } elseif (is_array($this->$listName)) {
-                \Mystem\Article::${$listName.'List'} = $this->$listName;
+                Word::${$listName.'List'} = $this->$listName;
             }
         }
         parent::init();
@@ -37,7 +37,7 @@ class ExtMystem extends CApplicationComponent
      */
     public function checkArticle($article)
     {
-        $article = new \Mystem\Article($article);
+        $article = new Article($article);
         $result = $article->checkBadWords(false);
         if (!$result && $this->heuristicsCheck) {
             $result = $this->heuristicsCheck($article);
@@ -47,14 +47,14 @@ class ExtMystem extends CApplicationComponent
 
     /**
      * Make article from nominative not strict words and runs check again
-     * @param \Mystem\Article $article
+     * @param Article $article
      * @return string[]
      */
-    protected function heuristicsCheck(\Mystem\Article $article)
+    protected function heuristicsCheck(Article $article)
     {
         $nominativeArticle = '';
         foreach ($article->words as $word) {
-            if (!$word->variants[0]['strict'] && !$word->checkGrammeme(\Mystem\MystemConst::OTHER_VULGARISM, 0)) {
+            if (!$word->variants[0]['strict'] && !$word->checkGrammeme(MystemConst::OTHER_VULGARISM, 0)) {
                 $nominativeArticle .= ' ' . $word;
             }
         }
@@ -62,7 +62,7 @@ class ExtMystem extends CApplicationComponent
             return array();
         }
 
-        $newArticle = new \Mystem\Article($nominativeArticle);
+        $newArticle = new Article($nominativeArticle);
         $words = $newArticle->checkBadWords(false);
 
         $result = array();

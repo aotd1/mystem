@@ -1,5 +1,5 @@
 <?php
-require '../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 $mayakovsky = <<<TEXT
 Не те бляди,
@@ -21,9 +21,9 @@ $article = new \Mystem\Article($mayakovsky);
 var_dump($article->checkBadWords(false));
 
 //Добавляем словарь нормализованных исключений
-\Mystem\Article::$falsePositiveNormalizedList = array('блядь');
+\Mystem\Word::$falsePositiveNormalizedList = array('блядь');
 var_dump($article->checkBadWords(false));
 
 //Добавляем словарь ложно-отрицательных прямых включений
-\Mystem\Article::$falseNegativeList = array('ебти');
+\Mystem\Word::$falseNegativeList = array('ебти');
 var_dump($article->checkBadWords(false));

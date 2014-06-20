@@ -42,7 +42,7 @@ class MystemConst
     const VOCATIVE = 'зват';
 
     //Count
-    const SUNGULAR = 'ед';
+    const SINGULAR = 'ед';
     const PLURAL = 'мн';
 
     //Репрезентация и наклонение глагола

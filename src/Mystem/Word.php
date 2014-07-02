@@ -41,7 +41,7 @@ class Word
     public function __construct()
     {
         if (self::$grammemeRegexp === null) {
-            self::$grammemeRegexp = '#('.implode('|', MystemConst::grammemeList()).')#u';
+            self::$grammemeRegexp = '#(' . implode('|', MystemConst::grammemeList()) . ')#u';
         }
     }
 
@@ -82,7 +82,8 @@ class Word
         }
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->normalized();
     }
 
@@ -96,8 +97,7 @@ class Word
         $counter = 0;
         $this->original = mb_substr($lexicalString, 0, mb_strpos($lexicalString, '{'));
         $variants = explode('|', mb_substr($lexicalString, mb_strlen($this->original) + 1, -1));
-        foreach ($variants as $text)
-        {
+        foreach ($variants as $text) {
             preg_match('#^(?P<normalized>[^=]*)=(?P<grammems>.*)$#u', $text, $match);
             $variant['normalized'] = !empty($match['normalized']) ? $match['normalized'] : $this->normalized();
             if (mb_strrpos($variant['normalized'], '?')) {
@@ -110,14 +110,16 @@ class Word
             if (!empty($match['grammems'])) {
                 $gramm = strtr($match['grammems'], '=,', '  ');
                 preg_match_all(self::$grammemeRegexp, $gramm, $match);
-                if (!empty($match[0]))
+                if (!empty($match[0])) {
                     $variant['grammems'] = $match[0];
+                }
             } else {
                 $variant['grammems'] = array();
             }
             $this->variants[$counter++] = $variant;
-            if ($maxVariants!==null && $counter>=$maxVariants)
+            if ($maxVariants !== null && $counter >= $maxVariants) {
                 break;
+            }
         }
     }
 
@@ -129,7 +131,7 @@ class Word
     {
         $levels = count($this->variants);
         $counter = 0;
-        for ($i=0; $i<$levels; $i++) {
+        for ($i = 0; $i < $levels; $i++) {
             $counter += $this->addGrammemeInVariant($gramm, $i);
         }
         return $counter;
@@ -157,7 +159,7 @@ class Word
     {
         $levels = count($this->variants);
         $counter = 0;
-        for ($i=0; $i<$levels; $i++) {
+        for ($i = 0; $i < $levels; $i++) {
             $counter += $this->removeGrammemeInVariant($gramm, $i);
         }
         return $counter;
@@ -184,12 +186,13 @@ class Word
      * @param null $level - variants maximum depth
      * @return boolean
      */
-    public function checkGrammeme($gramm, $level = null){
+    public function checkGrammeme($gramm, $level = null)
+    {
         $counter = 0;
         foreach ($this->variants as $variant) {
             if (in_array($gramm, $variant['grammems'])) {
                 return true;
-            } elseif ($level!==null && ++$counter>=$level) {
+            } elseif ($level !== null && ++$counter >= $level) {
                 return false;
             }
         }
@@ -308,5 +311,4 @@ class Word
             return $inExceptions;
         }
     }
-
 }

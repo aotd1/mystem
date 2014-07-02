@@ -1,5 +1,8 @@
-[![unitTests](https://travis-ci.org/aotd1/mystem.svg?branch=master)](https://travis-ci.org/aotd1/mystem)
-[![Code Climate](https://codeclimate.com/github/aotd1/mystem.png)](https://codeclimate.com/github/aotd1/mystem)
+[![Build Status](https://travis-ci.org/aotd1/mystem.svg?branch=master)](https://travis-ci.org/aotd1/mystem)
+[![Latest Stable Version](https://poser.pugx.org/aotd/mystem/v/stable.png)](https://packagist.org/packages/aotd/mystem)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aotd1/mystem/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aotd1/mystem/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/aotd1/mystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/aotd1/mystem/?branch=master)
+[![License](https://poser.pugx.org/aotd/mystem/license.svg)](https://packagist.org/packages/aotd/mystem)
 
 Использование Mystem
 ====================

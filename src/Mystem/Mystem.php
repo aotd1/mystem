@@ -13,10 +13,10 @@ class Mystem
     /**
      * Runs mystem binary and returns raw morphological data for each word
      * Ex. for 'каракули' returns:
-     *   каракули{каракуль=S,муж,неод=им,мн|=S,муж,неод=вин,мн|каракуля=S,жен,неод=им,мн|=S,жен,неод=род,ед|=S,жен,неод=вин,мн}
+     *   каракули{каракуль=S,муж,неод=им,мн|=S,муж,неод=вин,мн|каракуля=S,жен,неод=им,мн|=S,жен,неод=род,ед}
      * @param string $text
      * @throws \Exception
-     * @return string[]|bool lexical strings array
+     * @return string[] lexical strings array
      */
     public static function stemm($text)
     {
@@ -25,7 +25,7 @@ class Mystem
         ), $pipes);
 
         if (!is_resource($handle)) {
-            return false;
+            throw new \Exception("Can't proc_open mystem");
         }
 
         fwrite($pipes[0], $text);
@@ -57,7 +57,7 @@ class Mystem
         }
 
         return self::$mystemPath . (
-            strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
+        strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
         );
     }
 }

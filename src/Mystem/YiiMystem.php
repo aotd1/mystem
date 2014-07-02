@@ -21,11 +21,12 @@ class YiiMystem extends \CApplicationComponent
         $lists = array('falsePositive', 'falsePositiveNormalized', 'falseNegative', 'falseNegativeNormalized');
         foreach ($lists as $listName) {
             if (is_string($this->$listName)) {
-                if (!file_exists($this->$listName))
+                if (!file_exists($this->$listName)) {
                     throw new \CException("List file $listName '{$this->$listName}' not found");
-                Word::${$listName.'List'} = array_filter(explode("\n", file_get_contents($this->$listName)), 'trim');
+                }
+                Word::${$listName . 'List'} = array_filter(explode("\n", file_get_contents($this->$listName)), 'trim');
             } elseif (is_array($this->$listName)) {
-                Word::${$listName.'List'} = $this->$listName;
+                Word::${$listName . 'List'} = $this->$listName;
             }
         }
         parent::init();
@@ -66,7 +67,7 @@ class YiiMystem extends \CApplicationComponent
         $words = $newArticle->checkBadWords(false);
 
         $result = array();
-        foreach ($words as $original=>$word) {
+        foreach ($words as $original => $word) {
             foreach ($article->words as $originalWord) {
                 if ($original === $originalWord->normalized()) {
                     $result[$originalWord->original] = $word;
@@ -76,5 +77,4 @@ class YiiMystem extends \CApplicationComponent
         }
         return $result;
     }
-
 }

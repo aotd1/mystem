@@ -11,19 +11,19 @@ class MystemConst
 
     //Части речи
     const PART_A = 'A'; //прилагательное
-    const PART_ADV = 'ADV';//наречие
-    const PART_ADVPRO = 'ADVPRO';//местоименное наречие
-    const PART_ANUM = 'ANUM';//порядковое числительное
-    const PART_APRO = 'APRO';//местоименное прилагательное
-    const PART_COM = 'COM';//часть композита
-    const PART_CONJ = 'CONJ';//союз
-    const PART_INTJ = 'INTJ';//междометие
-    const PART_NUM = 'NUM';//числительное
-    const PART_PART = 'PART';//частица
-    const PART_PR = 'PR';//предлог
-    const PART_S = 'S';//существительное
-    const PART_SPRO = 'SPRO';//местоимение
-    const PART_V = 'V';//глагол
+    const PART_ADV = 'ADV'; //наречие
+    const PART_ADVPRO = 'ADVPRO'; //местоименное наречие
+    const PART_ANUM = 'ANUM'; //порядковое числительное
+    const PART_APRO = 'APRO'; //местоименное прилагательное
+    const PART_COM = 'COM'; //часть композита
+    const PART_CONJ = 'CONJ'; //союз
+    const PART_INTJ = 'INTJ'; //междометие
+    const PART_NUM = 'NUM'; //числительное
+    const PART_PART = 'PART'; //частица
+    const PART_PR = 'PR'; //предлог
+    const PART_S = 'S'; //существительное
+    const PART_SPRO = 'SPRO'; //местоимение
+    const PART_V = 'V'; //глагол
 
     //Время глаголов
     const PRESENT = 'наст'; //настоящее
@@ -84,7 +84,7 @@ class MystemConst
 
     //Прочие обозначения
     const OTHER_PARENTHESIS = 'вводн';
-    const OTHER_GEO ='гео';
+    const OTHER_GEO = 'гео';
     const OTHER_WTF = 'затр';
     const OTHER_NAME = 'имя';
     const OTHER_CORRUPT = 'искаж';
@@ -98,9 +98,10 @@ class MystemConst
     const OTHER_OUTDATED = 'устар';
     const OTHER_LAST_NAME = 'фам';
 
-    public static function grammemeList(){
+    public static function grammemeList()
+    {
         if (self::$grammems === null) {
-            $class = new \ReflectionClass ('\Mystem\MystemConst');
+            $class = new \ReflectionClass('\Mystem\MystemConst');
             self::$grammems = $class->getConstants();
             unset($const);
         }

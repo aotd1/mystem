@@ -24,8 +24,9 @@ class Article
         foreach ($stemmed as $part) {
             $word = ArticleWord::newFromLexicalString($part, 1, $this->article);
             $position = @mb_strpos($this->article, $word->original, $offset);
-            if ($position === false) //Can't find original word
+            if ($position === false) { //Can't find original word
                 $position = $offset + 1;
+            }
             $word->position = $position;
             $offset = $word->position + mb_strlen($word->original);
             $this->words[] = $word;
@@ -50,11 +51,11 @@ class Article
         foreach ($this->words as &$word) {
             if ($word->isBadWord()) {
                 $result[$word->original] = $word->normalized();
-                if ($stopOnFirst)
+                if ($stopOnFirst) {
                     break;
+                }
             }
         }
         return $result;
     }
-
 }

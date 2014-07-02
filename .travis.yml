@@ -1,13 +1,10 @@
 language: php
 
-notifications:
-  email:
-    - travis-mystem@aotd.ru
-
 php:
   - 5.3
   - 5.4
   - 5.5
+  - 5.6
   - hhvm
 
 matrix:
@@ -15,14 +12,24 @@ matrix:
     - php: hhvm
 
 before_script:
-  - sudo apt-get install parallel
-  - rm -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+  - composer self-update
   - composer install --prefer-source
-  - git config --global user.name travis-ci
-  - git config --global user.email travis@example.com
 
-script:
-  - ls -d tests/Mystem/* | parallel --gnu --keep-order 'echo "Running {} tests"; ./vendor/bin/phpunit -c tests/phpunit.xml.dist {};' || exit 1
+  - mkdir .reports
+  # Code style
+  - php vendor/bin/phpcs ./src/Mystem --standard=PSR1 --encoding=utf-8 --report=summary
+  - php vendor/bin/phpcs ./src/Mystem --standard=PSR2 --encoding=utf-8 --report=summary
+  # PHPUnit tests
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml.dist --coverage-clover=.reports/clover.xml
+
+after_success:
+  # Send cover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover .reports/clover.xml
 
 git:
   depth: 1
+
+notifications:
+  email:
+    - travis-mystem@aotd.ru

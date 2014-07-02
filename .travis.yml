@@ -15,6 +15,7 @@ before_script:
   - composer self-update
   - composer install --prefer-source
 
+script:
   - mkdir .reports
   # Code style
   - php vendor/bin/phpcs ./src/Mystem --standard=PSR1 --encoding=utf-8 --report=summary

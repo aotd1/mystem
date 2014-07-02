@@ -53,7 +53,12 @@ class MystemBinaryInstaller
             self::$io->write("<error>File $fileName not exists.</error>");
             return false;
         }
-        self::$config = json_decode(file_get_contents($fileName), true);
+        $content = file_get_contents($fileName);
+        if (!$content) {
+            self::$io->write("<error>Can't read $fileName file.</error>");
+            return false;
+        }
+        self::$config = (array)json_decode($content, true);
 
         if (!isset(self::$config['extra']['platform-specific-packages'])) {
             return false;
@@ -164,6 +169,18 @@ class MystemBinaryInstaller
         if (!$package) {
             return null;
         }
+        $new = self::bindPackageValues($newName, $package);
+        self::$localRepo->addPackage($new);
+        return $new;
+    }
+
+    /**
+     * @param string $newName
+     * @param array $package
+     * @return Package
+     */
+    protected static function bindPackageValues($newName, array $package)
+    {
         $new = new Package($newName, $package['version'], $package['version']);
         $new->setType('dist');
         if (isset($package['bin'])) {
@@ -178,7 +195,6 @@ class MystemBinaryInstaller
         if (isset($package['excludes'])) {
             $new->setArchiveExcludes($package['excludes']);
         }
-        self::$localRepo->addPackage($new);
         return $new;
     }
 

@@ -99,7 +99,7 @@ class Word
         $variants = explode('|', mb_substr($lexicalString, mb_strlen($this->original) + 1, -1));
         foreach ($variants as $text) {
             preg_match('#^(?P<normalized>[^=]*)=(?P<grammems>.*)$#u', $text, $match);
-            $variant['normalized'] = !empty($match['normalized']) ? $match['normalized'] : $this->normalized();
+            $variant = array('normalized' => !empty($match['normalized']) ? $match['normalized'] : $this->normalized());
             if (mb_strrpos($variant['normalized'], '?')) {
                 $variant['strict'] = false;
                 $variant['normalized'] = mb_substr($variant['normalized'], 0, -1);
@@ -129,9 +129,8 @@ class Word
      */
     public function addGrammeme($gramm)
     {
-        $levels = count($this->variants);
         $counter = 0;
-        for ($i = 0; $i < $levels; $i++) {
+        for ($i = 0; $i < count($this->variants); $i++) {
             $counter += $this->addGrammemeInVariant($gramm, $i);
         }
         return $counter;
@@ -157,9 +156,8 @@ class Word
      */
     public function removeGrammeme($gramm)
     {
-        $levels = count($this->variants);
         $counter = 0;
-        for ($i = 0; $i < $levels; $i++) {
+        for ($i = 0; $i < count($this->variants); $i++) {
             $counter += $this->removeGrammemeInVariant($gramm, $i);
         }
         return $counter;

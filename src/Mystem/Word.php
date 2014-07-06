@@ -98,8 +98,10 @@ class Word
         $this->original = mb_substr($lexicalString, 0, mb_strpos($lexicalString, '{'));
         $variants = explode('|', mb_substr($lexicalString, mb_strlen($this->original) + 1, -1));
         foreach ($variants as $text) {
-            preg_match('#^(?P<normalized>[^=]*)=(?P<grammems>.*)$#u', $text, $match);
-            $variant = array('normalized' => !empty($match['normalized']) ? $match['normalized'] : $this->normalized());
+            preg_match('#^(?P<normalized>[^=]+)=(?P<grammems>.*)$#u', $text, $match);
+            $variant = array(
+                'normalized' => !empty($match['normalized']) ? $match['normalized'] : $this->normalized()
+            );
             if (mb_strrpos($variant['normalized'], '?')) {
                 $variant['strict'] = false;
                 $variant['normalized'] = mb_substr($variant['normalized'], 0, -1);
@@ -200,7 +202,7 @@ class Word
     /**
      * Get verb time: present, past or future
      * @param int $variant find in which morphological variant
-     * @return null | MystemConst::PRESENT | MystemConst::PAST | MystemConst::FUTURE
+     * @return null|MystemConst::PRESENT|MystemConst::PAST|MystemConst::FUTURE
      */
     public function getVerbTime($variant = 0)
     {
@@ -212,7 +214,7 @@ class Word
     /**
      * Get count: single or plural
      * @param int $variant find in which morphological variant
-     * @return null | string - MystemConst
+     * @return null|string - MystemConst
      */
     public function getCount($variant = 0)
     {
@@ -224,7 +226,7 @@ class Word
     /**
      * Get gender
      * @param int $variant find in which morphological variant
-     * @return null | string - MystemConst
+     * @return null|string - MystemConst
      */
     public function getGender($variant = 0)
     {
@@ -236,7 +238,7 @@ class Word
     /**
      * Get animate
      * @param int $variant find in which morphological variant
-     * @return null | string - MystemConst
+     * @return null|string - MystemConst
      */
     public function getAnimate($variant = 0)
     {
@@ -248,7 +250,7 @@ class Word
     /**
      * Get noun case
      * @param int $variant
-     * @return null | string - MystemConst
+     * @return null|string - MystemConst
      */
     public function getNounCase($variant = 0)
     {

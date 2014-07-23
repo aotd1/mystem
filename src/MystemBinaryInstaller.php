@@ -123,9 +123,8 @@ class MystemBinaryInstaller
     public static function updateBinary(Package $package)
     {
         $binaries = $package->getBinaries();
-        if (isset($binaries[0]) && $binaries[0] !== 'mystem' && self::getOS() !== 'windows') {
+        if (isset($binaries[0]) && self::getOS() !== 'windows') {
             $binDir = rtrim(self::$composer->getConfig()->get('bin-dir'), '/') . '/';
-            rename($binDir . $binaries[0], $binDir . 'mystem');
             @chmod($binDir . 'mystem', 0555);
         }
     }

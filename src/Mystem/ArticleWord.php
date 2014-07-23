@@ -20,7 +20,7 @@ class ArticleWord extends Word
     public $position;
 
     /**
-     * @param string $lexicalString
+     * @param array[] $lexicalString
      * @param int $maxVariants
      * @param string $article
      * @return ArticleWord

@@ -79,7 +79,7 @@ class Mystem
     private static function procOpen()
     {
         if (self::$handle !== null) {
-            return;
+            return array();
         }
 
         self::$handle = proc_open(self::getMystem() . ' -incs --format=json', array(
@@ -89,8 +89,8 @@ class Mystem
         if (!is_resource(self::$handle)) {
             throw new \Exception("Can't proc_open mystem");
         }
-        stream_set_blocking(self::$pipes[1], false);
-        stream_set_blocking(self::$pipes[2], false);
+        stream_set_blocking(self::$pipes[1], 0);
+        stream_set_blocking(self::$pipes[2], 0);
 
         register_shutdown_function(array('\Mystem\Mystem', 'destruct'));
     }

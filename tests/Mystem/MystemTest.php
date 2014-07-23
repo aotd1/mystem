@@ -18,4 +18,13 @@ class MystemTest extends \PHPUnit_Framework_TestCase {
         Mystem::stemm('тест');
     }
 
+    public function testStemmNotRecreated()
+    {
+        Mystem::stemm('самолетами');
+        $tStart = microtime( true );
+        Mystem::stemm('пароходами');
+        $tDiff = microtime( true ) - $tStart;
+        $this->assertLessThan( 0.005, $tDiff, 'Took too long' );
+    }
+
 }

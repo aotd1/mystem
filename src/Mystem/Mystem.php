@@ -7,39 +7,108 @@ namespace Mystem;
  */
 class Mystem
 {
+    private static $handle;
+    protected static $pipes;
+
     /* @var string $mystemPath path to mystem binary */
     public static $mystemPath = null;
 
     /**
      * Runs mystem binary and returns raw morphological data for each word
-     * Ex. for 'каракули' returns:
-     *   каракули{каракуль=S,муж,неод=им,мн|=S,муж,неод=вин,мн|каракуля=S,жен,неод=им,мн|=S,жен,неод=род,ед}
+     * Ex. for 'хрюкотали' returns:
+     *   array(2) {
+     *      ["text"]=> string(18) "хрюкотали"
+     *      ["analysis"]=> array(1) {
+     *          [0]=> array(3) {
+     *              ["lex"] =>string(18) "хрюкотать"
+     *              ["gr"]  =>string(42) "V,несов,нп=прош,мн,изъяв"
+     *              ["qual"]=>string(7) "bastard"
+     *          }
+     *     }
+     *   }
      * @param string $text
      * @throws \Exception
-     * @return string[] lexical strings array
+     * @return array[] lexical strings associative array
      */
     public static function stemm($text)
     {
-        $handle = proc_open(self::getMystem() . ' -ni', array(
-            0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "w")
-        ), $pipes);
+        self::procOpen();
+        do {
+            $endMark = 'end' . rand(99999, PHP_INT_MAX);
+        } while (mb_strpos($text, $endMark) !== false);
+        fwrite(self::$pipes[0], $text . ".$endMark\n");
+        $raw = self::readUntil(self::$pipes[1], $endMark);
+        $possibleError = stream_get_contents(self::$pipes[2], 1024);
+        if (!empty($possibleError)) {
+            throw new \Exception("Error: ".$possibleError);
+        }
+        $lines = explode("\n", $raw);
+        foreach ($lines as &$line) {
+            $line = json_decode($line, true);
+        }
+        $lines = array_filter($lines, function ($value) {
+            return isset($value['analysis']);
+        });
+        return $lines;
+    }
 
-        if (!is_resource($handle)) {
+    /**
+     * @param $pipe
+     * @param string $endMark
+     * @return string
+     */
+    private static function readUntil($pipe, $endMark)
+    {
+        $w = null;
+        $read = array($pipe);
+        if (stream_select($read, $w, $e, 4, 1000) == 0) {
+            return '';
+        }
+        $raw = '';
+        $newOffset = 0;
+        $counter = 0;
+        do {
+            $offset = $newOffset;
+            usleep(500);
+            $raw .= stream_get_contents($pipe);
+            $newOffset = mb_strlen($raw);
+        } while (mb_strpos($raw, $endMark, $offset) == false && $counter++<20);
+        return $raw;
+    }
+
+    private static function procOpen()
+    {
+        if (self::$handle !== null) {
+            return;
+        }
+
+        self::$handle = proc_open(self::getMystem() . ' -incs --format=json', array(
+            0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "w")
+        ), self::$pipes);
+
+        if (!is_resource(self::$handle)) {
             throw new \Exception("Can't proc_open mystem");
         }
+        stream_set_blocking(self::$pipes[1], false);
+        stream_set_blocking(self::$pipes[2], false);
 
-        fwrite($pipes[0], $text);
-        fclose($pipes[0]);
-        $raw = array_filter(explode("\n", stream_get_contents($pipes[1])));
-        fclose($pipes[1]);
-        if (!feof($pipes[2])) {
-            $logLine = fgets($pipes[2]);
-            if (!empty($logLine)) {
-                throw new \Exception($logLine);
+        register_shutdown_function(array('\Mystem\Mystem', 'destruct'));
+    }
+
+    public static function destruct()
+    {
+        if (self::$handle === null) {
+            return false;
+        }
+        if (is_array(self::$pipes)) {
+            foreach (self::$pipes as $pipe) {
+                fflush($pipe);
+                fclose($pipe);
             }
         }
-        proc_close($handle);
-        return $raw;
+        proc_terminate(self::$handle);
+        proc_close(self::$handle);
+        self::$handle = null;
     }
 
     /**
@@ -57,7 +126,7 @@ class Mystem
         }
 
         return self::$mystemPath . (
-        strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
+            strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
         );
     }
 }

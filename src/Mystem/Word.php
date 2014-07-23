@@ -89,34 +89,23 @@ class Word
 
     /**
      * Parse raw morphological data from mystem and fill Word object data
-     * @param string $lexicalString - prepared string from Mystem
+     * @param array[] $lexicalString - prepared string from Mystem
      * @param int $maxVariants
      */
     protected function parse($lexicalString, $maxVariants = null)
     {
         $counter = 0;
-        $this->original = mb_substr($lexicalString, 0, mb_strpos($lexicalString, '{'));
-        $variants = explode('|', mb_substr($lexicalString, mb_strlen($this->original) + 1, -1));
-        foreach ($variants as $text) {
-            preg_match('#^(?P<normalized>[^=]+)=(?P<grammems>.*)$#u', $text, $match);
+        $this->original = $lexicalString['text'];
+        $analysis = $lexicalString['analysis'];
+        foreach ($analysis as $aVariant) {
             $variant = array(
-                'normalized' => !empty($match['normalized']) ? $match['normalized'] : $this->normalized()
+                'normalized' => $aVariant['lex'],
+                'strict' => isset($aVariant['qual']) && $aVariant['qual'] === 'bastard',
+                'grammems' => array(),
             );
-            if (mb_strrpos($variant['normalized'], '?')) {
-                $variant['strict'] = false;
-                $variant['normalized'] = mb_substr($variant['normalized'], 0, -1);
-            } else {
-                $variant['strict'] = true;
-            }
-
-            if (!empty($match['grammems'])) {
-                $gramm = strtr($match['grammems'], '=,', '  ');
-                preg_match_all(self::$grammemeRegexp, $gramm, $match);
-                if (!empty($match[0])) {
-                    $variant['grammems'] = $match[0];
-                }
-            } else {
-                $variant['grammems'] = array();
+            preg_match_all(self::$grammemeRegexp, $aVariant['gr'], $match);
+            if (!empty($match[0])) {
+                $variant['grammems'] = $match[0];
             }
             $this->variants[$counter++] = $variant;
             if ($maxVariants !== null && $counter >= $maxVariants) {

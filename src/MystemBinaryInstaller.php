@@ -103,6 +103,7 @@ class MystemBinaryInstaller
             foreach (self::$toInstall as $package) {
                 if (!self::$installer->isPackageInstalled(self::$localRepo, $package)) {
                     self::$installer->install(self::$localRepo, new InstallOperation($package));
+                    self::updateBinary($package);
                 } else {
                     $notInstalled++;
                 }
@@ -117,6 +118,16 @@ class MystemBinaryInstaller
     {
         //@TODO: update changed packages
         self::install($event);
+    }
+
+    public static function updateBinary(Package $package)
+    {
+        $binaries = $package->getBinaries();
+        if (isset($binaries[0]) && $binaries[0] !== 'mystem' && self::getOS() !== 'windows') {
+            $binDir = rtrim(self::$composer->getConfig()->get('bin-dir'), '/') . '/';
+            rename($binDir . $binaries[0], $binDir . 'mystem');
+            @chmod($binDir . 'mystem', 0555);
+        }
     }
 
     /**

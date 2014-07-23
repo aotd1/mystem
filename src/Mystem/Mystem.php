@@ -20,7 +20,7 @@ class Mystem
      */
     public static function stemm($text)
     {
-        $handle = proc_open(self::getMystem() . ' -nie utf-8', array(
+        $handle = proc_open(self::getMystem() . ' -ni', array(
             0 => array("pipe", "r"), 1 => array("pipe", "w"), 2 => array("pipe", "w")
         ), $pipes);
 

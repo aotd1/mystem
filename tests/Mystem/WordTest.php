@@ -112,7 +112,7 @@ class WordTest extends \PHPUnit_Framework_TestCase {
     {
         return array(
             array('прокурор', MystemConst::NOMINATIVE),
-            array('прокуроров', MystemConst::GENITIVE),
+            array('прокуроров', MystemConst::ACCUSATIVE),
             array('прокурорам', MystemConst::DATIVE),
             array('прокурором', MystemConst::INSTRUMENTAL),
             array('прокуроре', MystemConst::PREPOSITIONAL),

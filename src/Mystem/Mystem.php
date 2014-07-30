@@ -47,7 +47,7 @@ class Mystem
             $line = json_decode($line, true);
         }
         $lines = array_filter($lines, function ($value) {
-            return isset($value['analysis']);
+            return !empty($value['analysis']);
         });
         return $lines;
     }

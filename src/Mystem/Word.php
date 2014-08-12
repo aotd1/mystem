@@ -46,7 +46,7 @@ class Word
     }
 
     /**
-     * @param array[] $lexicalString - prepared structure from Mystem
+     * @param array[]|string $lexicalString - prepared structure from Mystem
      * @param int $maxVariants
      * @return Word
      */
@@ -54,7 +54,11 @@ class Word
     {
         /* @var Word $word */
         $word = new static::$constructorClass();
-        $word->parse($lexicalString, $maxVariants);
+        if (is_array($lexicalString)) {
+            $word->parse($lexicalString, $maxVariants);
+        } else {
+            $word->original = $lexicalString;
+        }
         return $word;
     }
 
@@ -66,7 +70,7 @@ class Word
     public static function stemm($word, $maxVariants = null)
     {
         $lexicalString = Mystem::stemm($word);
-        return self::newFromLexicalString($lexicalString[0], $maxVariants);
+        return self::newFromLexicalString(isset($lexicalString[0]) ? $lexicalString[0] : $word, $maxVariants);
     }
 
     /**
@@ -75,7 +79,7 @@ class Word
      */
     public function normalized()
     {
-        if (isset($this->variants[0]['normalized'])) {
+        if (isset($this->variants[0], $this->variants[0]['normalized'])) {
             return $this->variants[0]['normalized'];
         } else {
             return '';

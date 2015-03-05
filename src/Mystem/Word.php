@@ -93,7 +93,7 @@ class Word
 
     /**
      * Parse raw morphological data from mystem and fill Word object data
-     * @param array[] $lexicalString - prepared string from Mystem
+     * @param array $lexicalString - prepared string from Mystem
      * @param int $maxVariants
      */
     protected function parse($lexicalString, $maxVariants = null)
@@ -125,7 +125,8 @@ class Word
     public function addGrammeme($gramm)
     {
         $counter = 0;
-        for ($i = 0; $i < count($this->variants); $i++) {
+        $count = count($this->variants);
+        for ($i = 0; $i < $count; $i++) {
             $counter += $this->addGrammemeInVariant($gramm, $i);
         }
         return $counter;
@@ -152,7 +153,8 @@ class Word
     public function removeGrammeme($gramm)
     {
         $counter = 0;
-        for ($i = 0; $i < count($this->variants); $i++) {
+        $count = count($this->variants);
+        for ($i = 0; $i < $count; $i++) {
             $counter += $this->removeGrammemeInVariant($gramm, $i);
         }
         return $counter;
@@ -195,7 +197,7 @@ class Word
     /**
      * Get verb time: present, past or future
      * @param int $variant find in which morphological variant
-     * @return null|MystemConst::PRESENT|MystemConst::PAST|MystemConst::FUTURE
+     * @return null|string MystemConst::PRESENT, MystemConst::PAST or MystemConst::FUTURE
      */
     public function getVerbTime($variant = 0)
     {

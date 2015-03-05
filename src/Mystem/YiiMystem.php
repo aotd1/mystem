@@ -40,7 +40,7 @@ class YiiMystem extends \CApplicationComponent
     {
         $article = new Article($article);
         $result = $article->checkBadWords(false);
-        if (!$result && $this->heuristicsCheck) {
+        if (!empty($result) && $this->heuristicsCheck) {
             $result = $this->heuristicsCheck($article);
         }
         return $result;

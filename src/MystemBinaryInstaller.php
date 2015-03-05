@@ -125,7 +125,9 @@ class MystemBinaryInstaller
         $binaries = $package->getBinaries();
         if (isset($binaries[0]) && self::getOS() !== 'windows') {
             $binDir = rtrim(self::$composer->getConfig()->get('bin-dir'), '/') . '/';
-            @chmod($binDir . 'mystem', 0555);
+            if (!@chmod($binDir . 'mystem', 0555)) {
+                throw new Exception("Can't chmod binary file '{$binDir}mystem'");
+            }
         }
     }
 

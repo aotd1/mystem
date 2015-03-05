@@ -46,7 +46,7 @@ class Word
     }
 
     /**
-     * @param array[]|string $lexicalString - prepared structure from Mystem
+     * @param array|string $lexicalString - prepared structure from Mystem
      * @param int $maxVariants
      * @return Word
      */

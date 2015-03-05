@@ -176,7 +176,7 @@ class Word
     /**
      * Search grammese primitive in word variants
      * @param string $gramm - grammar primitive from MystemConst
-     * @param null $level - variants maximum depth
+     * @param integer $level - variants maximum depth
      * @return boolean
      */
     public function checkGrammeme($gramm, $level = null)

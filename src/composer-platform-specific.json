@@ -29,7 +29,7 @@
             "package":{
                 "name":"yandex/mystem-linux32",
                 "version":"dev-master",
-                "bin": ["mystem-3.0-linux3.5-32bit"],
+                "bin": ["mystem"],
                 "dist":{"url":"http://download.yandex.ru/mystem/mystem-3.0-linux3.5-32bit.tar.gz", "type":"tar" }
             }
         },

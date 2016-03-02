@@ -21,7 +21,7 @@
                 "name":"yandex/mystem-mac",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{ "url":"http://download.yandex.ru/mystem/mystem-2.1-macosx10.8.tar.gz", "type":"tar" }
+                "dist":{ "url":"https://download.cdn.yandex.net/mystem/mystem-2.1-macosx10.8.tar.gz", "type":"tar" }
             }
         },
         {
@@ -30,7 +30,7 @@
                 "name":"yandex/mystem-linux32",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-linux3.0-32bit.tar.gz", "type":"tar" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-2.1-linux3.0-32bit.tar.gz", "type":"tar" }
             }
         },
         {
@@ -39,7 +39,7 @@
                 "name":"yandex/mystem-linux64",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-linux3.2-64bit.tar.gz", "type":"tar" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-2.1-linux3.2-64bit.tar.gz", "type":"tar" }
             }
         },
         {
@@ -48,7 +48,7 @@
                 "name":"yandex/mystem-windows32",
                 "version":"dev-master",
                 "bin": ["mystem.exe"],
-                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-win7-32bit.zip", "type":"zip" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-2.1-win7-32bit.zip", "type":"zip" }
             }
         },
         {
@@ -57,7 +57,7 @@
                 "name":"yandex/mystem-windows64",
                 "version":"dev-master",
                 "bin": ["mystem.exe"],
-                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-win7-64bit.zip", "type":"zip" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-2.1-win7-64bit.zip", "type":"zip" }
             }
         },
         {
@@ -66,7 +66,7 @@
                 "name":"yandex/mystem-freebsd",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{"url":"http://download.yandex.ru/mystem/mystem-2.1-freebsd9.0-64bit.tar.gz", "type":"tar" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-2.1-freebsd9.0-64bit.tar.gz", "type":"tar" }
             }
         }
     ]

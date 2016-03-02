@@ -2,7 +2,7 @@ language: php
 
 os:
   - linux
-  - osx
+#  - osx
 
 php:
   - 5.3

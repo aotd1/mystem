@@ -21,7 +21,7 @@
                 "name":"yandex/mystem-mac",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{ "url":"http://download.cdn.yandex.net/mystem/mystem-3.0-macosx10.8.tar.gz", "type":"tar" }
+                "dist":{ "url":"https://download.cdn.yandex.net/mystem/mystem-3.0-macosx10.8.tar.gz", "type":"tar" }
             }
         },
         {
@@ -30,7 +30,7 @@
                 "name":"yandex/mystem-linux32",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{"url":"http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz", "type":"tar" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-3.0-linux3.5-32bit.tar.gz", "type":"tar" }
             }
         },
         {
@@ -39,7 +39,7 @@
                 "name":"yandex/mystem-linux64",
                 "version":"dev-master",
                 "bin": ["mystem"],
-                "dist":{"url":"http://download.cdn.yandex.net/mystem/mystem-3.0-linux3.1-64bit.tar.gz", "type":"tar" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-3.0-linux3.1-64bit.tar.gz", "type":"tar" }
             }
         },
         {
@@ -48,7 +48,7 @@
                 "name":"yandex/mystem-windows32",
                 "version":"dev-master",
                 "bin": ["mystem.exe"],
-                "dist":{"url":"http://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip", "type":"zip" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-3.0-win7-32bit.zip", "type":"zip" }
             }
         },
         {
@@ -57,7 +57,7 @@
                 "name":"yandex/mystem-windows64",
                 "version":"dev-master",
                 "bin": ["mystem.exe"],
-                "dist":{"url":"http://download.cdn.yandex.net/mystem/mystem-3.0-win7-64bit.zip", "type":"zip" }
+                "dist":{"url":"https://download.cdn.yandex.net/mystem/mystem-3.0-win7-64bit.zip", "type":"zip" }
             }
         },
         {

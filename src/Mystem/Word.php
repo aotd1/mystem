@@ -120,7 +120,7 @@ class Word
 
     /**
      * @param string $gramm - grammar primitive from MystemConst
-     * @return int|void
+     * @return int
      */
     public function addGrammeme($gramm)
     {

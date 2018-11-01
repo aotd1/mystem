@@ -42,7 +42,7 @@ script:
 after_success:
   # Send cover
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --access_token="$SCRUTINIZER_TOKEN" --format=php-clover .reports/coverage.clover
+  - php ocular.phar code-coverage:upload --access-token="$SCRUTINIZER_TOKEN" --format=php-clover .reports/coverage.clover
 
 cache:
   directories:

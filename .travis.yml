@@ -2,25 +2,34 @@ language: php
 
 os:
   - linux
-#  - osx
 
 php:
-  - 5.3
   - 5.4
   - 5.5
   - 5.6
   - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
   - hhvm
 
 matrix:
   fast_finish: true
+  include:
+    - php: 5.3
+      dist: precise
+# Disabled because of OSX php brew issues on Mojave 10.13
+#   - os: osx
+#     language: generic
+#     before_install:
+#       - HOMEBREW_NO_AUTO_UPDATE=1 brew info php
+#       - php --ini
   allow_failures:
     - php: hhvm
-    - php: hhvm-nightly
 
 before_script:
-  - composer self-update
-  - composer install --prefer-source
+  - flags="--prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress "
+  - composer install $flags -vv
 
 script:
   - mkdir .reports
@@ -34,6 +43,15 @@ after_success:
   # Send cover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover .reports/clover.xml
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+addons:
+  apt:
+    packages:
+      - parallel
 
 git:
   depth: 1

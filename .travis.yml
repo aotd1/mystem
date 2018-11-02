@@ -27,9 +27,12 @@ matrix:
   allow_failures:
     - php: hhvm
 
-before_script:
+sudo: false
+
+travis_retry:
   - flags="--prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress "
-  - composer install $flags -vv
+  - travis_retry composer self-update $flags && composer --version
+  - travis_retry composer install $flags
 
 script:
   - mkdir .reports

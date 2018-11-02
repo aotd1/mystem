@@ -5,6 +5,9 @@ build:
                 override:
                     - php-scrutinizer-run
 
+checks:
+    php: true
+
 tools:
     external_code_coverage:
         timeout: 2100 # Timeout in seconds.

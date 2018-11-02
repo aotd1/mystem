@@ -30,8 +30,8 @@ matrix:
 sudo: false
 
 before_script:
+  - travis_retry composer self-update && composer --version
   - flags="--prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress "
-  - travis_retry composer self-update $flags && composer --version
   - travis_retry composer install $flags
 
 script:

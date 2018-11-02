@@ -76,6 +76,10 @@ class Mystem
         return $raw;
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     private static function procOpen()
     {
         if (self::$handle !== null) {
@@ -117,15 +121,15 @@ class Mystem
      */
     private static function getMystem()
     {
-        if (self::$mystemPath === null) {
+        if (static::$mystemPath === null) {
             if (is_dir(__DIR__ . '/../../vendor/bin/')) {
-                self::$mystemPath = __DIR__ . '/../../vendor/bin/';
+                static::$mystemPath = __DIR__ . '/../../vendor/bin/';
             } else {
-                self::$mystemPath = __DIR__ . '/../../../../bin/';
+                static::$mystemPath = __DIR__ . '/../../../../bin/';
             }
         }
 
-        return self::$mystemPath . (
+        return static::$mystemPath . (
             strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? 'mystem.exe' : 'mystem'
         );
     }

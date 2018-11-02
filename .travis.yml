@@ -27,9 +27,12 @@ matrix:
   allow_failures:
     - php: hhvm
 
+sudo: false
+
 before_script:
+  - travis_retry composer self-update && composer --version
   - flags="--prefer-dist --no-interaction --optimize-autoloader --no-suggest --no-progress "
-  - composer install $flags -vv
+  - travis_retry composer install $flags
 
 script:
   - mkdir .reports
@@ -37,12 +40,12 @@ script:
   - php vendor/bin/phpcs ./src/Mystem --standard=PSR1 --encoding=utf-8 --report=summary
   - php vendor/bin/phpcs ./src/Mystem --standard=PSR2 --encoding=utf-8 --report=summary
   # PHPUnit tests
-  - php vendor/bin/phpunit --configuration tests/phpunit.xml.dist --coverage-clover=.reports/clover.xml
+  - php vendor/bin/phpunit --configuration tests/phpunit.xml.dist --coverage-clover=.reports/coverage.clover
 
 after_success:
   # Send cover
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover .reports/clover.xml
+  - php ocular.phar code-coverage:upload --access-token="$SCRUTINIZER_TOKEN" --format=php-clover .reports/coverage.clover
 
 cache:
   directories:

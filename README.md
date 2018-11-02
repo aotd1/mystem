@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.org/aotd1/mystem.svg?branch=master)](https://travis-ci.org/aotd1/mystem)
 [![Latest Stable Version](https://poser.pugx.org/aotd/mystem/v/stable.png)](https://packagist.org/packages/aotd/mystem)
+[![Total Downloads](https://poser.pugx.org/aotd/mystem/downloads.png)](https://packagist.org/packages/aotd/mystem)
+[![Build Status](https://travis-ci.org/aotd1/mystem.svg?branch=master)](https://travis-ci.org/aotd1/mystem)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aotd1/mystem/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aotd1/mystem/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/aotd1/mystem/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/aotd1/mystem/?branch=master)
 [![License](https://poser.pugx.org/aotd/mystem/license.svg)](https://packagist.org/packages/aotd/mystem)
 
 Использование Mystem
